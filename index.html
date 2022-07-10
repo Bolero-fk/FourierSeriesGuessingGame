@@ -18,8 +18,32 @@
 
     <canvas id="ex_chart"></canvas>
 
+    <label><input type="range" id="fourier-a1" min="0" max="1" step="0.25" value="0.5">a1</label>
+    <label><input type="range" id="fourier-a2" min="0" max="1" step="0.25" value="0.5">a5</label>
+    <label><input type="range" id="fourier-a5" min="0" max="1" step="0.25" value="0.5">a10</label>
+    <label><input type="range" id="fourier-a10" min="0" max="1" step="0.25" value="0.5">a25</label>
+    <label><input type="range" id="fourier-a20" min="0" max="1" step="0.25" value="0.5">a50</label>
+
     <script>
-        window.onload = InitializeGraph();
+        var chart = InitializeGraph();
+
+        const range1Elem = document.getElementById('fourier-a1');
+        const range2Elem = document.getElementById('fourier-a2');
+        const range3Elem = document.getElementById('fourier-a5');
+        const range4Elem = document.getElementById('fourier-a10');
+        const range5Elem = document.getElementById('fourier-a20');
+
+        window.onload = () => {
+            range1Elem.addEventListener('input', graphChange);
+            range2Elem.addEventListener('input', graphChange);
+            range3Elem.addEventListener('input', graphChange);
+            range4Elem.addEventListener('input', graphChange);
+            range5Elem.addEventListener('input', graphChange);
+        }
+
+        function graphChange() {
+            ChangeGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
+        }
     </script>
 
 </body>
