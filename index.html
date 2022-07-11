@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>フーリエ級数</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="./DrawFourier.js"></script>
 </head>
 
@@ -18,20 +20,34 @@
 
     <canvas id="ex_chart"></canvas>
 
-    <label><input type="range" id="fourier-a1" min="0" max="1" step="0.25" value="0.5">a1</label>
-    <label><input type="range" id="fourier-a2" min="0" max="1" step="0.25" value="0.5">a5</label>
-    <label><input type="range" id="fourier-a5" min="0" max="1" step="0.25" value="0.5">a10</label>
-    <label><input type="range" id="fourier-a10" min="0" max="1" step="0.25" value="0.5">a25</label>
-    <label><input type="range" id="fourier-a20" min="0" max="1" step="0.25" value="0.5">a50</label>
+    <label>a1<input type="range" id="fourier-a1" min="0" max="1" step="0.25" value="0.5"></label>
+    <label>a5<input type="range" id="fourier-a5" min="0" max="1" step="0.25" value="0.5"></label>
+    <label>a10<input type="range" id="fourier-a10" min="0" max="1" step="0.25" value="0.5"></label>
+    <label>a25<input type="range" id="fourier-a20" min="0" max="1" step="0.25" value="0.5"></label>
+    <label>a50<input type="range" id="fourier-a50" min="0" max="1" step="0.25" value="0.5"></label>
+    <input type="button" onclick="CheckGraph()" value="Check">
 
+    <p>
+        <span id="checkCount">1</span>回目: <span id="a1">0.50</span>sin&theta; + <span id="a5">0.50</span>sin5&theta; +
+        <span id="a10">0.50</span>sin10&theta; + <span id="a20">0.50</span>sin20&theta; + <span
+            id="a50">0.50</span>sin50&theta;
+    </p>
     <script>
         var chart = InitializeGraph();
 
         const range1Elem = document.getElementById('fourier-a1');
-        const range2Elem = document.getElementById('fourier-a2');
-        const range3Elem = document.getElementById('fourier-a5');
-        const range4Elem = document.getElementById('fourier-a10');
-        const range5Elem = document.getElementById('fourier-a20');
+        const range2Elem = document.getElementById('fourier-a5');
+        const range3Elem = document.getElementById('fourier-a10');
+        const range4Elem = document.getElementById('fourier-a20');
+        const range5Elem = document.getElementById('fourier-a50');
+
+        const text1Elem = document.getElementById('a1');
+        const text2Elem = document.getElementById('a5');
+        const text3Elem = document.getElementById('a10');
+        const text4Elem = document.getElementById('a20');
+        const text5Elem = document.getElementById('a50');
+
+        const checkCountElem = document.getElementById("checkCount");
 
         window.onload = () => {
             range1Elem.addEventListener('input', graphChange);
@@ -43,6 +59,15 @@
 
         function graphChange() {
             ChangeGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
+            text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
+            text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
+            text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
+            text4Elem.innerText = Number.parseFloat(range4Elem.value).toFixed(2);
+            text5Elem.innerText = Number.parseFloat(range5Elem.value).toFixed(2);
+        }
+
+        function CheckGraph() {
+            checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
         }
     </script>
 
