@@ -27,11 +27,12 @@
     <label>a50<input type="range" id="fourier-a50" min="0" max="1" step="0.25" value="0.5"></label>
     <input type="button" onclick="CheckGraph()" value="Check">
 
-    <p>
+    <p id=math>
         <span id="checkCount">1</span>回目: <span id="a1">0.50</span>sin&theta; + <span id="a5">0.50</span>sin5&theta; +
         <span id="a10">0.50</span>sin10&theta; + <span id="a20">0.50</span>sin20&theta; + <span
             id="a50">0.50</span>sin50&theta;
     </p>
+
     <script>
         var chart = InitializeGraph();
 
@@ -67,9 +68,30 @@
         }
 
         function CheckGraph() {
+            UpdatePastAnswers();
             checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
         }
+
+        function UpdatePastAnswers() {
+            var newAnchor = document.createElement("a");
+            var newText = document.createTextNode(document.getElementById("math").innerText);
+            newAnchor.appendChild(newText);
+
+            // li 要素の作成
+            var newLi = document.createElement("li");
+            newLi.appendChild(newAnchor);
+
+            // リストに追加
+            var list = document.getElementById("PastAnswers");
+            list.appendChild(newLi);
+        }
+
     </script>
+
+    <ul id="PastAnswers">
+    </ul>
+    </p>
+
 
 </body>
 
