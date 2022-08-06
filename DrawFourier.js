@@ -16,7 +16,7 @@ function GetFrourier(a1, a5, a10, a25, a50) {
 
 function InitializeGraph() {
     var ctx = document.getElementById('ex_chart');
-
+    var answerCoefficients = GetRandomCoefficients();
     var data = {
         datasets: [{
             radius: 0,
@@ -25,6 +25,15 @@ function InitializeGraph() {
             showLine: true,
             fill: false,
             borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgb(255, 99, 132)'
+        },
+        {
+            radius: 0,
+            label: "フーリエ関数",
+            data: GetFrourier(answerCoefficients[0], answerCoefficients[1], answerCoefficients[2], answerCoefficients[3], answerCoefficients[4]),
+            showLine: true,
+            fill: false,
+            borderColor: 'rgb(0, 0, 0)',
             backgroundColor: 'rgb(255, 99, 132)'
         }],
     };
@@ -49,6 +58,13 @@ function InitializeGraph() {
         },
         tooltips: {
             enabled: false
+        },
+        legend: {
+            labels: {
+                filter: function (items) {
+                    return items.datasetIndex != 1;
+                }
+            }
         }
     };
 
@@ -59,6 +75,27 @@ function InitializeGraph() {
     });
 
     return ex_chart;
+}
+
+function GetRandomCoefficients() {
+    var coefficients = [];
+    for (let i = 0; i < 5; i++) {
+        var randomValue = Math.random();
+        var coefficient;
+        if (randomValue < 0.2)
+            coefficient = 0;
+        else if (randomValue < 0.4)
+            coefficient = 0.25;
+        else if (randomValue < 0.6)
+            coefficient = 0.5;
+        else if (randomValue < 0.8)
+            coefficient = 0.75;
+        else
+            coefficient = 1.0;
+        coefficients.push(coefficient);
+    }
+
+    return coefficients;
 }
 
 function ChangeGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0.5) {
