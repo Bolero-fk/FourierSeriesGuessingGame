@@ -1,3 +1,5 @@
+var answerCoefficients;
+
 function DrawFourier() {
 }
 
@@ -15,26 +17,29 @@ function GetFrourier(a1, a5, a10, a25, a50) {
 }
 
 function InitializeGraph() {
+    answerCoefficients = GetRandomCoefficients();
+    console.log(answerCoefficients[0], answerCoefficients[1], answerCoefficients[2], answerCoefficients[3], answerCoefficients[4]);
+
     var ctx = document.getElementById('ex_chart');
-    var answerCoefficients = GetRandomCoefficients();
     var data = {
         datasets: [{
             radius: 0,
             label: "フーリエ関数",
             data: GetFrourier(0.5, 0.5, 0.5, 0.5, 0.5),
+            order: 1,
             showLine: true,
             fill: false,
             borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-            radius: 0,
-            label: "フーリエ関数",
-            data: GetFrourier(answerCoefficients[0], answerCoefficients[1], answerCoefficients[2], answerCoefficients[3], answerCoefficients[4]),
-            showLine: true,
+            backgroundColor: 'rgb(255, 99, 132)',
+            hoverRadius: 1.5
+        }, {
+            radius: 1.5,
+            order: 1,
+            showLine: false,
             fill: false,
             borderColor: 'rgb(0, 0, 0)',
-            backgroundColor: 'rgb(255, 99, 132)'
+            backgroundColor: 'rgb(0, 0, 0)',
+            hoverRadius: 1.5
         }],
     };
 
@@ -59,13 +64,6 @@ function InitializeGraph() {
         tooltips: {
             enabled: false
         },
-        legend: {
-            labels: {
-                filter: function (items) {
-                    return items.datasetIndex != 1;
-                }
-            }
-        }
     };
 
     var ex_chart = new Chart(ctx, {
@@ -100,5 +98,26 @@ function GetRandomCoefficients() {
 
 function ChangeGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0.5) {
     chart.data.datasets[0].data = GetFrourier(a1, a2, a5, a10, a20);
+    chart.update();
+}
+
+function GetHintData(a1, a5, a10, a25, a50) {
+    var answerFrourier = GetFrourier(answerCoefficients[0], answerCoefficients[1], answerCoefficients[2], answerCoefficients[3], answerCoefficients[4]);
+    var checkFrourier = GetFrourier(a1, a5, a10, a25, a50);
+
+    var hintValues = [];
+    for (var i = 0; i < answerFrourier.length; i++) {
+        if (Math.abs(answerFrourier[i].y - checkFrourier[i].y) < 0.05) {
+            value = { x: answerFrourier[i].x, y: answerFrourier[i].y };
+            hintValues.push(value);
+        }
+    }
+
+    return hintValues;
+}
+
+function UpdateHintGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0.5) {
+    var hintDataSets = chart.data.datasets[1].data.concat(GetHintData(a1, a2, a5, a10, a20));
+    chart.data.datasets[1].data = hintDataSets;
     chart.update();
 }

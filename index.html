@@ -68,6 +68,7 @@
             }
 
             function CheckGraph() {
+                UpdateHintGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
                 UpdatePastAnswers();
                 checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
             }
