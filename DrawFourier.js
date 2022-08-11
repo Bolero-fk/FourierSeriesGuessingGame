@@ -1,6 +1,6 @@
 const PLOT_NUMBER = 10000;
 const Two_PI = 2 * Math.PI;
-const ANSWER_THRETHOLD = 0.05;
+const ANSWER_THRETHOLD = 0.01;
 
 var correctAnswers;
 var minCoefficient = 0;
@@ -164,7 +164,7 @@ function GetAnswerStatuses(a1, a2, a5, a10, a20) {
 
     for (var i = 0; i < 5; i++) {
         var answerIndex = answers[i] / coefficientStep;
-        if (correctCounts[answerIndex] > 0) {
+        if (correctCounts[answerIndex] > 0 && answerStatuses[i] == 0) {
             answerStatuses[i] = 1;
             correctCounts[answerIndex]--;
         }
