@@ -133,3 +133,14 @@ function UpdateHintGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0
     UpdateHintData(chart.data.datasets[0].data, a1, a2, a5, a10, a20);
     chart.update();
 }
+
+function GetScore() {
+    hintData = chart.data.datasets[0].data;
+    var answerCount = 0;
+    for (var i = 0; i < hintData.length; i++) {
+        if (hintData[i].y != null)
+            answerCount++;
+    }
+    return (answerCount / hintData.length * 100).toPrecision(3);
+}
+
