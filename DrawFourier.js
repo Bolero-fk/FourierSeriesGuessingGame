@@ -47,8 +47,8 @@ function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep) {
             order: 1,
             showLine: false,
             fill: false,
-            borderColor: 'rgb(0, 0, 0)',
-            backgroundColor: 'rgb(0, 0, 0)',
+            borderColor: "#2cb67d",
+            backgroundColor: "#2cb67d",
             hoverRadius: 1.5
         }, {
             radius: 0,
