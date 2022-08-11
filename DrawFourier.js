@@ -2,7 +2,7 @@ const PLOT_NUMBER = 10000;
 const Two_PI = 2 * Math.PI;
 const ANSWER_THRETHOLD = 0.05;
 
-var answerCoefficients;
+var correctAnswers;
 var minCoefficient = 0;
 var maxCoefficient = 1;
 var coefficientStep = 0.25;
@@ -40,8 +40,8 @@ function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep) {
     maxCoefficient = _maxCoefficient;
     coefficientStep = _coefficientStep;
 
-    answerCoefficients = GetRandomCoefficients();
-    console.log(answerCoefficients[0], answerCoefficients[1], answerCoefficients[2], answerCoefficients[3], answerCoefficients[4]);
+    correctAnswers = GetRandomCoefficients();
+    console.log(correctAnswers[0], correctAnswers[1], correctAnswers[2], correctAnswers[3], correctAnswers[4]);
 
     var ctx = document.getElementById('ex_chart');
     var data = {
@@ -117,7 +117,7 @@ function ChangeGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0.5) 
 }
 
 function UpdateHintData(hintData, a1, a5, a10, a25, a50) {
-    var answerFrourier = GetFrourier(answerCoefficients[0], answerCoefficients[1], answerCoefficients[2], answerCoefficients[3], answerCoefficients[4]);
+    var answerFrourier = GetFrourier(correctAnswers[0], correctAnswers[1], correctAnswers[2], correctAnswers[3], correctAnswers[4]);
     var checkFrourier = GetFrourier(a1, a5, a10, a25, a50);
 
     var hintValues = [];
@@ -150,7 +150,7 @@ function GetAnswerStatuses(a1, a2, a5, a10, a20) {
 
     for (var i1 = 0; i1 < 5; i1++) {
         for (var i2 = 0; i2 < 5; i2++) {
-            if (answers[i1] == answerCoefficients[i2]) {
+            if (answers[i1] == correctAnswers[i2]) {
                 if (i1 == i2) {
                     statuses[i1] = 2;
                     break;
