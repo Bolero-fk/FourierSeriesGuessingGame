@@ -1,12 +1,15 @@
 var answerCoefficients;
+const PLOT_NUMBER = 10000;
+const Two_PI = 2 * Math.PI;
+const ANSWER_THRETHOLD = 0.05;
 
 function DrawFourier() {
 }
 
 function GetFrourier(a1, a5, a10, a25, a50) {
     var values = [];
-    for (var i = 0; i <= 1000; i++) {
-        var x = i / (1000) * 2 * Math.PI;
+    for (var i = 0; i <= PLOT_NUMBER; i++) {
+        var x = i / (PLOT_NUMBER) * 2 * Math.PI;
         var y = a1 * Math.sin(x) + a5 * Math.sin(5 * x) + a10 * Math.sin(10 * x)
             + a25 * Math.sin(25 * x) + a50 * Math.sin(50 * x);
         var value = { x: x, y: y };
@@ -18,8 +21,8 @@ function GetFrourier(a1, a5, a10, a25, a50) {
 
 function GetInitializeData() {
     var values = [];
-    for (var i = 0; i <= 1000; i++) {
-        var x = i / (1000) * 2 * Math.PI;
+    for (var i = 0; i <= PLOT_NUMBER; i++) {
+        var x = i / PLOT_NUMBER * Two_PI;
         var y = null;
         var value = { x: x, y: y };
         values.push(value);
@@ -64,7 +67,7 @@ function InitializeGraph() {
             xAxes: [{
                 ticks: {
                     min: 0,
-                    max: 2 * Math.PI
+                    max: Two_PI
                 }
             }],
             yAxes: [{
@@ -120,7 +123,7 @@ function UpdateHintData(hintData, a1, a5, a10, a25, a50) {
 
     var hintValues = [];
     for (var i = 0; i < hintData.length; i++) {
-        if (Math.abs(answerFrourier[i].y - checkFrourier[i].y) < 0.05) {
+        if (Math.abs(answerFrourier[i].y - checkFrourier[i].y) < ANSWER_THRETHOLD) {
             value = { x: answerFrourier[i].x, y: answerFrourier[i].y };
             hintData[i] = value;
         }
