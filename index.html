@@ -19,14 +19,37 @@
         }
     </style>
 
-    <canvas id="ex_chart"></canvas>
+    <script>
+        const MIN_COEFFICIENT = 0;
+        const MAX_COEFFICIENT = 1;
+        const COEFFICIENT_STEP = 0.25;
+        const INITIAL_VALUE = (MAX_COEFFICIENT - MIN_COEFFICIENT) / 2;
 
-    <label>a1<input type="range" id="fourier-a1" min="0" max="1" step="0.25" value="0.5"></label>
-    <label>a5<input type="range" id="fourier-a5" min="0" max="1" step="0.25" value="0.5"></label>
-    <label>a10<input type="range" id="fourier-a10" min="0" max="1" step="0.25" value="0.5"></label>
-    <label>a25<input type="range" id="fourier-a20" min="0" max="1" step="0.25" value="0.5"></label>
-    <label>a50<input type="range" id="fourier-a50" min="0" max="1" step="0.25" value="0.5"></label>
+        function SetRangeSettings(elementId) {
+            var rangeElement = document.getElementById(elementId);
+            rangeElement.setAttribute("min", MIN_COEFFICIENT);
+            rangeElement.setAttribute("max", MAX_COEFFICIENT);
+            rangeElement.setAttribute("step", COEFFICIENT_STEP);
+            rangeElement.setAttribute("value", INITIAL_VALUE);
+        }
+    </script>
+
+    <canvas id="ex_chart"></canvas>
+    <label>a1<input type="range" id="fourier-a1"></label>
+    <label>a5<input type="range" id="fourier-a5"></label>
+    <label>a10<input type="range" id="fourier-a10"></label>
+    <label>a25<input type="range" id="fourier-a20"></label>
+    <label>a50<input type="range" id="fourier-a50"></label>
     <input type="button" onclick="CheckGraph()" value="Check">
+
+    <script>
+        SetRangeSettings("fourier-a1");
+        SetRangeSettings("fourier-a5");
+        SetRangeSettings("fourier-a10");
+        SetRangeSettings("fourier-a20");
+        SetRangeSettings("fourier-a50");
+    </script>
+
 
     <p id=math>
         <span id="checkCount">1</span>回目: <span id="a1">0.50</span>sin&theta; + <span id="a5">0.50</span>sin5&theta; +
@@ -34,7 +57,8 @@
             id="a50">0.50</span>sin50&theta;
 
         <script>
-            var chart = InitializeGraph();
+
+            var chart = InitializeGraph(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP);
 
             const range1Elem = document.getElementById('fourier-a1');
             const range2Elem = document.getElementById('fourier-a5');

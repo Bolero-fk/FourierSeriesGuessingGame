@@ -1,7 +1,11 @@
-var answerCoefficients;
 const PLOT_NUMBER = 10000;
 const Two_PI = 2 * Math.PI;
 const ANSWER_THRETHOLD = 0.05;
+
+var answerCoefficients;
+var minCoefficient = 0;
+var maxCoefficient = 1;
+var coefficientStep = 0.25;
 
 function DrawFourier() {
 }
@@ -31,7 +35,11 @@ function GetInitializeData() {
     return values;
 }
 
-function InitializeGraph() {
+function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep) {
+    minCoefficient = _minCoefficient;
+    maxCoefficient = _maxCoefficient;
+    coefficientStep = _coefficientStep;
+
     answerCoefficients = GetRandomCoefficients();
     console.log(answerCoefficients[0], answerCoefficients[1], answerCoefficients[2], answerCoefficients[3], answerCoefficients[4]);
 
@@ -93,19 +101,10 @@ function InitializeGraph() {
 
 function GetRandomCoefficients() {
     var coefficients = [];
+    var choiceNumber = (maxCoefficient - minCoefficient) / coefficientStep + 1;
     for (let i = 0; i < 5; i++) {
-        var randomValue = Math.random();
-        var coefficient;
-        if (randomValue < 0.2)
-            coefficient = 0;
-        else if (randomValue < 0.4)
-            coefficient = 0.25;
-        else if (randomValue < 0.6)
-            coefficient = 0.5;
-        else if (randomValue < 0.8)
-            coefficient = 0.75;
-        else
-            coefficient = 1.0;
+        var randomValue = Math.random() * choiceNumber;
+        var coefficient = Math.ceil(randomValue) * coefficientStep;
         coefficients.push(coefficient);
     }
 
