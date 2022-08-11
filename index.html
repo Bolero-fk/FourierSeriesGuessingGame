@@ -57,80 +57,90 @@
         +
         <span id="a10">0.50</span>sin10&theta; + <span id="a20">0.50</span>sin20&theta; + <span
             id="a50">0.50</span>sin50&theta;
+    </p>
+    <script>
+        var chart = InitializeGraph(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP);
 
-        <script>
-            var chart = InitializeGraph(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP);
+        const range1Elem = document.getElementById('fourier-a1');
+        const range2Elem = document.getElementById('fourier-a5');
+        const range3Elem = document.getElementById('fourier-a10');
+        const range4Elem = document.getElementById('fourier-a20');
+        const range5Elem = document.getElementById('fourier-a50');
 
-            const range1Elem = document.getElementById('fourier-a1');
-            const range2Elem = document.getElementById('fourier-a5');
-            const range3Elem = document.getElementById('fourier-a10');
-            const range4Elem = document.getElementById('fourier-a20');
-            const range5Elem = document.getElementById('fourier-a50');
+        const text1Elem = document.getElementById('a1');
+        const text2Elem = document.getElementById('a5');
+        const text3Elem = document.getElementById('a10');
+        const text4Elem = document.getElementById('a20');
+        const text5Elem = document.getElementById('a50');
 
-            const text1Elem = document.getElementById('a1');
-            const text2Elem = document.getElementById('a5');
-            const text3Elem = document.getElementById('a10');
-            const text4Elem = document.getElementById('a20');
-            const text5Elem = document.getElementById('a50');
+        const checkCountElem = document.getElementById("checkCount");
 
-            const checkCountElem = document.getElementById("checkCount");
+        window.onload = () => {
+            range1Elem.addEventListener('input', graphChange);
+            range2Elem.addEventListener('input', graphChange);
+            range3Elem.addEventListener('input', graphChange);
+            range4Elem.addEventListener('input', graphChange);
+            range5Elem.addEventListener('input', graphChange);
+        }
 
-            window.onload = () => {
-                range1Elem.addEventListener('input', graphChange);
-                range2Elem.addEventListener('input', graphChange);
-                range3Elem.addEventListener('input', graphChange);
-                range4Elem.addEventListener('input', graphChange);
-                range5Elem.addEventListener('input', graphChange);
+        function graphChange() {
+            ChangeGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
+            text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
+            text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
+            text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
+            text4Elem.innerText = Number.parseFloat(range4Elem.value).toFixed(2);
+            text5Elem.innerText = Number.parseFloat(range5Elem.value).toFixed(2);
+        }
+
+        function CheckGraph() {
+            UpdateHintGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
+            UpdatePastAnswers();
+            UpdateScore();
+            checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
+        }
+
+        function UpdateScore() {
+            const scoreElem = document.getElementById('score');
+            scoreElem.innerHTML = GetScore().toString() + "%";
+        }
+
+        function UpdatePastAnswers() {
+            var newAnchor = document.createElement("a");
+            var newText = document.createTextNode(GetPastAnswerText());
+            newAnchor.appendChild(newText);
+
+            // li 要素の作成
+            var newLi = document.createElement("li");
+            newLi.appendChild(newAnchor);
+
+            // リストに追加
+            var list = document.getElementById("PastAnswers");
+            list.appendChild(newLi);
+
+            // スクロール要素の高さ
+            var scrollHeight = document.getElementById("scrollBox").scrollHeight;
+            document.getElementById("scrollBox").scrollTop = scrollHeight;
+
+            ScrollToBottom();
+        }
+
+        function GetPastAnswerText() {
+            var copyElement = document.getElementById("math").cloneNode(true);
+            console.log(copyElement.childElementCount);
+            for (var i = 0; i < copyElement.childElementCount; i++) {
+                console.log(copyElement.children[i].textContent);
             }
+            var answerStatuses = GetAnswerStatuses(range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
+            return document.getElementById("math").innerText;
+        }
 
-            function graphChange() {
-                ChangeGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
-                text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
-                text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
-                text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
-                text4Elem.innerText = Number.parseFloat(range4Elem.value).toFixed(2);
-                text5Elem.innerText = Number.parseFloat(range5Elem.value).toFixed(2);
-            }
+        function ScrollToBottom() {
+            // スクロール要素の高さ
+            var scrollHeight = document.getElementById("scrollBox").scrollHeight;
+            document.getElementById("scrollBox").scrollTop = scrollHeight;
+        }
 
-            function CheckGraph() {
-                UpdateHintGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
-                UpdatePastAnswers();
-                UpdateScore();
-                checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
-            }
-
-            function UpdateScore() {
-                const scoreElem = document.getElementById('score');
-                scoreElem.innerHTML = GetScore().toString() + "%";
-            }
-
-            function UpdatePastAnswers() {
-                var newAnchor = document.createElement("a");
-                var newText = document.createTextNode(document.getElementById("math").innerText);
-                newAnchor.appendChild(newText);
-
-                // li 要素の作成
-                var newLi = document.createElement("li");
-                newLi.appendChild(newAnchor);
-
-                // リストに追加
-                var list = document.getElementById("PastAnswers");
-                list.appendChild(newLi);
-
-                // スクロール要素の高さ
-                var scrollHeight = document.getElementById("scrollBox").scrollHeight;
-                document.getElementById("scrollBox").scrollTop = scrollHeight;
-
-                ScrollToBottom();
-            }
-
-            function ScrollToBottom() {
-                // スクロール要素の高さ
-                var scrollHeight = document.getElementById("scrollBox").scrollHeight;
-                document.getElementById("scrollBox").scrollTop = scrollHeight;
-            }
-
-        </script>
+    </script>
     <div id="scrollBox" class="scroll">
         <ul id="PastAnswers">
         </ul>
