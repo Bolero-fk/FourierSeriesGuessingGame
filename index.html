@@ -106,8 +106,7 @@
 
         function UpdatePastAnswers() {
             var newAnchor = document.createElement("a");
-            var newText = document.createTextNode(GetPastAnswerText());
-            newAnchor.appendChild(newText);
+            newAnchor.innerHTML = GetPastAnswerHTML();
 
             // li 要素の作成
             var newLi = document.createElement("li");
@@ -124,14 +123,16 @@
             ScrollToBottom();
         }
 
-        function GetPastAnswerText() {
-            var copyElement = document.getElementById("math").cloneNode(true);
-            console.log(copyElement.childElementCount);
-            for (var i = 0; i < copyElement.childElementCount; i++) {
-                console.log(copyElement.children[i].textContent);
-            }
+        function GetPastAnswerHTML() {
             var answerStatuses = GetAnswerStatuses(range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
-            return document.getElementById("math").innerText;
+            var copyElement = document.getElementById("math").cloneNode(true);
+            for (var i = 1; i < copyElement.childElementCount; i++) {
+                if (answerStatuses[i - 1] == 1)
+                    copyElement.children[i].style.color = "#edb918";
+                else if (answerStatuses[i - 1] == 2)
+                    copyElement.children[i].style.color = "green";
+            }
+            return copyElement.innerHTML;
         }
 
         function ScrollToBottom() {
