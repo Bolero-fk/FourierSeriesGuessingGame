@@ -144,3 +144,23 @@ function GetScore() {
     return (answerCount / hintData.length * 100).toPrecision(3);
 }
 
+function GetAnswerStatuses(a1, a2, a5, a10, a20) {
+    var answers = [a1, a2, a5, a10, a20];
+    var statuses = [0, 0, 0, 0, 0];
+
+    for (var i1 = 0; i1 < 5; i1++) {
+        for (var i2 = 0; i2 < 5; i2++) {
+            if (answers[i1] == answerCoefficients[i2]) {
+                if (i1 == i2) {
+                    statuses[i1] = 2;
+                    break;
+                }
+                statuses[i1] = 1;
+            }
+        }
+    }
+
+    return statuses;
+}
+
+
