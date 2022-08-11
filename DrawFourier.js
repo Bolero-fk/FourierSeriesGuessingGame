@@ -104,7 +104,7 @@ function GetRandomCoefficients() {
     var choiceNumber = (maxCoefficient - minCoefficient) / coefficientStep + 1;
     for (let i = 0; i < 5; i++) {
         var randomValue = Math.random() * choiceNumber;
-        var coefficient = Math.ceil(randomValue) * coefficientStep;
+        var coefficient = Math.floor(randomValue) * coefficientStep;
         coefficients.push(coefficient);
     }
 
