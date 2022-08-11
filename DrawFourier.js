@@ -7,9 +7,6 @@ var minCoefficient = 0;
 var maxCoefficient = 1;
 var coefficientStep = 0.25;
 
-function DrawFourier() {
-}
-
 function GetFrourier(a1, a5, a10, a25, a50) {
     var values = [];
     for (var i = 0; i <= PLOT_NUMBER; i++) {
@@ -41,7 +38,6 @@ function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep) {
     coefficientStep = _coefficientStep;
 
     correctAnswers = GetRandomCoefficients();
-    console.log(correctAnswers[0], correctAnswers[1], correctAnswers[2], correctAnswers[3], correctAnswers[4]);
 
     var ctx = document.getElementById('ex_chart');
     var data = {
