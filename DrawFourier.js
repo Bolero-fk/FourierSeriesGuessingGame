@@ -145,22 +145,32 @@ function GetScore() {
 }
 
 function GetAnswerStatuses(a1, a2, a5, a10, a20) {
-    var answers = [a1, a2, a5, a10, a20];
-    var statuses = [0, 0, 0, 0, 0];
+    var choiceNumber = (maxCoefficient - minCoefficient) / coefficientStep + 1;
+    var correctCounts = Array(choiceNumber).fill(0);
+    correctAnswers.forEach(correctAnswer => {
+        correctCounts[correctAnswer / coefficientStep]++;
+    });
 
-    for (var i1 = 0; i1 < 5; i1++) {
-        for (var i2 = 0; i2 < 5; i2++) {
-            if (answers[i1] == correctAnswers[i2]) {
-                if (i1 == i2) {
-                    statuses[i1] = 2;
-                    break;
-                }
-                statuses[i1] = 1;
-            }
+    var answers = [a1, a2, a5, a10, a20];
+    var answerStatuses = [0, 0, 0, 0, 0];
+
+    for (var i = 0; i < 5; i++) {
+        var answerIndex = answers[i] / coefficientStep;
+        if (answers[i] == correctAnswers[i]) {
+            answerStatuses[i] = 2;
+            correctCounts[answerIndex]--;
         }
     }
 
-    return statuses;
+    for (var i = 0; i < 5; i++) {
+        var answerIndex = answers[i] / coefficientStep;
+        if (correctCounts[answerIndex] > 0) {
+            answerStatuses[i] = 1;
+            correctCounts[answerIndex]--;
+        }
+    }
+
+    return answerStatuses;
 }
 
 
