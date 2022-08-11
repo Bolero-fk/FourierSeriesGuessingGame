@@ -35,6 +35,15 @@ function InitializeGraph() {
     var ctx = document.getElementById('ex_chart');
     var data = {
         datasets: [{
+            radius: 1,
+            data: GetInitializeData(),
+            order: 1,
+            showLine: false,
+            fill: false,
+            borderColor: 'rgb(0, 0, 0)',
+            backgroundColor: 'rgb(0, 0, 0)',
+            hoverRadius: 1.5
+        }, {
             radius: 0,
             label: "フーリエ関数",
             data: GetFrourier(0.5, 0.5, 0.5, 0.5, 0.5),
@@ -43,15 +52,6 @@ function InitializeGraph() {
             fill: false,
             borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgb(255, 99, 132)',
-            hoverRadius: 1.5
-        }, {
-            radius: 0,
-            data: GetInitializeData(),
-            order: 1,
-            showLine: true,
-            fill: false,
-            borderColor: 'rgb(0, 0, 0)',
-            backgroundColor: 'rgb(0, 0, 0)',
             hoverRadius: 1.5
         }],
     };
@@ -110,7 +110,7 @@ function GetRandomCoefficients() {
 }
 
 function ChangeGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0.5) {
-    chart.data.datasets[0].data = GetFrourier(a1, a2, a5, a10, a20);
+    chart.data.datasets[1].data = GetFrourier(a1, a2, a5, a10, a20);
     chart.update();
 }
 
@@ -128,6 +128,6 @@ function UpdateHintData(hintData, a1, a5, a10, a25, a50) {
 }
 
 function UpdateHintGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0.5) {
-    UpdateHintData(chart.data.datasets[1].data, a1, a2, a5, a10, a20);
+    UpdateHintData(chart.data.datasets[0].data, a1, a2, a5, a10, a20);
     chart.update();
 }
