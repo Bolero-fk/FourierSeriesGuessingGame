@@ -49,6 +49,7 @@ function InitializeGraph() {
     var data = {
         datasets: [{
             radius: 1,
+            label: "Hint",
             data: GetInitialHintData(),
             order: 1,
             showLine: false,
@@ -58,7 +59,7 @@ function InitializeGraph() {
             hoverRadius: 1.5
         }, {
             radius: 0,
-            label: "フーリエ関数",
+            label: "Answer",
             data: GetFrourier([0.5, 0.5, 0.5, 0.5, 0.5]),
             order: 1,
             showLine: true,
@@ -88,7 +89,7 @@ function InitializeGraph() {
             }],
         },
         tooltips: {
-            enabled: false
+            enabled: false,
         },
     };
 
