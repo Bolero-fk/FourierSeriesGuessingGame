@@ -60,7 +60,7 @@
                 id="a50">0.50</span></b>sin50&theta;
     </p>
     <script>
-        var chart = InitializeGraph(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
+        var chart = InitializeGame(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
 
         const range1Elem = document.getElementById('fourier-a1');
         const range2Elem = document.getElementById('fourier-a5');
@@ -96,7 +96,7 @@
         function CheckGraph() {
             UpdateHintGraph(chart, GetAnswerCoefficients());
             UpdatePastAnswers();
-            UpdateScore();
+            UpdateScore(chart);
             checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
         }
 

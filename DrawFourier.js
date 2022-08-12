@@ -16,38 +16,40 @@ function GetFrourier(_coefficients) {
         for (var j = 0; j < _coefficients.length; j++) {
             y += _coefficients[j] * Math.sin(cycles[j] * x);
         }
-        var value = { x: x, y: y };
-        values.push(value);
+        values.push({ x: x, y: y });
     }
 
     return values;
 }
 
-function GetInitializeData() {
+function GetInitialHintData() {
     var values = [];
     for (var i = 0; i <= PLOT_NUMBER; i++) {
         var x = i / PLOT_NUMBER * Two_PI;
         var y = null;
-        var value = { x: x, y: y };
-        values.push(value);
+        values.push({ x: x, y: y });
     }
 
     return values;
 }
 
-function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep, _cycles) {
+function InitializeGame(_minCoefficient, _maxCoefficient, _coefficientStep, _cycles) {
     minCoefficient = _minCoefficient;
     maxCoefficient = _maxCoefficient;
     coefficientStep = _coefficientStep;
     cycles = _cycles;
 
-    correctAnswers = GetRandomCoefficients();
+    SetCorrectAnswers();
 
+    return InitializeGraph();
+}
+
+function InitializeGraph() {
     var ctx = document.getElementById('ex_chart');
     var data = {
         datasets: [{
             radius: 1,
-            data: GetInitializeData(),
+            data: GetInitialHintData(),
             order: 1,
             showLine: false,
             fill: false,
@@ -95,11 +97,10 @@ function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep, _cy
         data: data,
         options: config
     });
-
     return ex_chart;
 }
 
-function GetRandomCoefficients() {
+function SetCorrectAnswers() {
     var coefficients = [];
     var choiceNumber = (maxCoefficient - minCoefficient) / coefficientStep + 1;
     for (let i = 0; i < 5; i++) {
@@ -107,35 +108,32 @@ function GetRandomCoefficients() {
         var coefficient = Math.floor(randomValue) * coefficientStep;
         coefficients.push(coefficient);
     }
-
-    return coefficients;
+    correctAnswers = coefficients;
 }
 
-function ChangeGraph(chart, _coefficients) {
-    chart.data.datasets[1].data = GetFrourier(_coefficients);
-    chart.update();
+function ChangeGraph(_chart, _coefficients) {
+    _chart.data.datasets[1].data = GetFrourier(_coefficients);
+    _chart.update();
 }
 
-function UpdateHintData(hintData, _coefficients) {
-    var answerFrourier = GetFrourier([correctAnswers[0], correctAnswers[1], correctAnswers[2], correctAnswers[3], correctAnswers[4]]);
+function UpdateHintData(_hintData, _coefficients) {
+    var correctAnswerFrourier = GetFrourier(correctAnswers);
     var checkFrourier = GetFrourier(_coefficients);
 
-    var hintValues = [];
-    for (var i = 0; i < hintData.length; i++) {
-        if (Math.abs(answerFrourier[i].y - checkFrourier[i].y) < ANSWER_THRETHOLD) {
-            value = { x: answerFrourier[i].x, y: answerFrourier[i].y };
-            hintData[i] = value;
+    for (var i = 0; i < _hintData.length; i++) {
+        if (Math.abs(correctAnswerFrourier[i].y - checkFrourier[i].y) < ANSWER_THRETHOLD) {
+            _hintData[i] = { x: correctAnswerFrourier[i].x, y: correctAnswerFrourier[i].y };
         }
     }
 }
 
-function UpdateHintGraph(chart, _coefficients) {
-    UpdateHintData(chart.data.datasets[0].data, _coefficients);
-    chart.update();
+function UpdateHintGraph(_chart, _coefficients) {
+    UpdateHintData(_chart.data.datasets[0].data, _coefficients);
+    _chart.update();
 }
 
-function GetScore() {
-    hintData = chart.data.datasets[0].data;
+function GetScore(_chart) {
+    var hintData = chart.data.datasets[0].data;
     var answerCount = 0;
     for (var i = 0; i < hintData.length; i++) {
         if (hintData[i].y != null)
