@@ -151,13 +151,11 @@ function GetAnswerStatuses(_answerCoefficients) {
     });
 
     var answerStatuses = [0, 0, 0, 0, 0];
-
     for (var i = 0; i < 5; i++) {
         var answerIndex = _answerCoefficients[i] / coefficientStep;
-        if (_answerCoefficients[i] == correctAnswers[i]) {
+        if (Math.abs(_answerCoefficients[i] - correctAnswers[i]) < 0.0001)
             answerStatuses[i] = 2;
-            correctCounts[answerIndex]--;
-        }
+        correctCounts[answerIndex]--;
     }
 
     for (var i = 0; i < 5; i++) {
