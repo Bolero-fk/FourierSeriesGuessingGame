@@ -85,7 +85,7 @@
         }
 
         function graphChange() {
-            ChangeGraph(chart, [range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value]);
+            ChangeGraph(chart, GetAnswerCoefficients());
             text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
             text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
             text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
@@ -94,10 +94,14 @@
         }
 
         function CheckGraph() {
-            UpdateHintGraph(chart, [range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value]);
+            UpdateHintGraph(chart, GetAnswerCoefficients());
             UpdatePastAnswers();
             UpdateScore();
             checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
+        }
+
+        function GetAnswerCoefficients() {
+            return [range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value];
         }
 
         function UpdateScore() {
@@ -125,7 +129,7 @@
         }
 
         function GetPastAnswerHTML() {
-            var answerStatuses = GetAnswerStatuses([range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value]);
+            var answerStatuses = GetAnswerStatuses(GetAnswerCoefficients());
             var copyElement = document.getElementById("math").cloneNode(true);
             for (var i = 1; i < copyElement.childElementCount; i++) {
                 if (answerStatuses[i - 1] == 1)
