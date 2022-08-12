@@ -147,19 +147,20 @@ function GetAnswerStatuses(_answerCoefficients) {
     var choiceNumber = (maxCoefficient - minCoefficient) / coefficientStep + 1;
     var correctCounts = Array(choiceNumber).fill(0);
     correctAnswers.forEach(correctAnswer => {
-        correctCounts[correctAnswer / coefficientStep]++;
+        correctCounts[Math.ceil(correctAnswer / coefficientStep)]++;
     });
 
     var answerStatuses = [0, 0, 0, 0, 0];
     for (var i = 0; i < 5; i++) {
-        var answerIndex = _answerCoefficients[i] / coefficientStep;
-        if (Math.abs(_answerCoefficients[i] - correctAnswers[i]) < 0.0001)
+        if (Math.abs(_answerCoefficients[i] - correctAnswers[i]) < 0.0001) {
             answerStatuses[i] = 2;
-        correctCounts[answerIndex]--;
+            var answerIndex = Math.ceil(_answerCoefficients[i] / coefficientStep);
+            correctCounts[answerIndex]--;
+        }
     }
 
     for (var i = 0; i < 5; i++) {
-        var answerIndex = _answerCoefficients[i] / coefficientStep;
+        var answerIndex = Math.ceil(_answerCoefficients[i] / coefficientStep);
         if (correctCounts[answerIndex] > 0 && answerStatuses[i] == 0) {
             answerStatuses[i] = 1;
             correctCounts[answerIndex]--;
