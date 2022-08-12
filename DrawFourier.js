@@ -6,13 +6,16 @@ var correctAnswers;
 var minCoefficient = 0;
 var maxCoefficient = 1;
 var coefficientStep = 0.25;
+var cycles = [];
 
-function GetFrourier(a1, a5, a10, a25, a50) {
+function GetFrourier(_coefficients) {
     var values = [];
     for (var i = 0; i <= PLOT_NUMBER; i++) {
         var x = i / (PLOT_NUMBER) * 2 * Math.PI;
-        var y = a1 * Math.sin(x) + a5 * Math.sin(5 * x) + a10 * Math.sin(10 * x)
-            + a25 * Math.sin(25 * x) + a50 * Math.sin(50 * x);
+        var y = 0;
+        for (var j = 0; j < _coefficients.length; j++) {
+            y += _coefficients[j] * Math.sin(cycles[j] * x);
+        }
         var value = { x: x, y: y };
         values.push(value);
     }
@@ -32,10 +35,11 @@ function GetInitializeData() {
     return values;
 }
 
-function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep) {
+function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep, _cycles) {
     minCoefficient = _minCoefficient;
     maxCoefficient = _maxCoefficient;
     coefficientStep = _coefficientStep;
+    cycles = _cycles;
 
     correctAnswers = GetRandomCoefficients();
 
@@ -53,7 +57,7 @@ function InitializeGraph(_minCoefficient, _maxCoefficient, _coefficientStep) {
         }, {
             radius: 0,
             label: "フーリエ関数",
-            data: GetFrourier(0.5, 0.5, 0.5, 0.5, 0.5),
+            data: GetFrourier([0.5, 0.5, 0.5, 0.5, 0.5]),
             order: 1,
             showLine: true,
             fill: false,
@@ -107,14 +111,14 @@ function GetRandomCoefficients() {
     return coefficients;
 }
 
-function ChangeGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0.5) {
-    chart.data.datasets[1].data = GetFrourier(a1, a2, a5, a10, a20);
+function ChangeGraph(chart, _coefficients) {
+    chart.data.datasets[1].data = GetFrourier(_coefficients);
     chart.update();
 }
 
-function UpdateHintData(hintData, a1, a5, a10, a25, a50) {
-    var answerFrourier = GetFrourier(correctAnswers[0], correctAnswers[1], correctAnswers[2], correctAnswers[3], correctAnswers[4]);
-    var checkFrourier = GetFrourier(a1, a5, a10, a25, a50);
+function UpdateHintData(hintData, _coefficients) {
+    var answerFrourier = GetFrourier([correctAnswers[0], correctAnswers[1], correctAnswers[2], correctAnswers[3], correctAnswers[4]]);
+    var checkFrourier = GetFrourier(_coefficients);
 
     var hintValues = [];
     for (var i = 0; i < hintData.length; i++) {
@@ -125,8 +129,8 @@ function UpdateHintData(hintData, a1, a5, a10, a25, a50) {
     }
 }
 
-function UpdateHintGraph(chart, a1 = 0.5, a2 = 0.5, a5 = 0.5, a10 = 0.5, a20 = 0.5) {
-    UpdateHintData(chart.data.datasets[0].data, a1, a2, a5, a10, a20);
+function UpdateHintGraph(chart, _coefficients) {
+    UpdateHintData(chart.data.datasets[0].data, _coefficients);
     chart.update();
 }
 
@@ -140,26 +144,25 @@ function GetScore() {
     return (answerCount / hintData.length * 100).toPrecision(3);
 }
 
-function GetAnswerStatuses(a1, a2, a5, a10, a20) {
+function GetAnswerStatuses(_answerCoefficients) {
     var choiceNumber = (maxCoefficient - minCoefficient) / coefficientStep + 1;
     var correctCounts = Array(choiceNumber).fill(0);
     correctAnswers.forEach(correctAnswer => {
         correctCounts[correctAnswer / coefficientStep]++;
     });
 
-    var answers = [a1, a2, a5, a10, a20];
     var answerStatuses = [0, 0, 0, 0, 0];
 
     for (var i = 0; i < 5; i++) {
-        var answerIndex = answers[i] / coefficientStep;
-        if (answers[i] == correctAnswers[i]) {
+        var answerIndex = _answerCoefficients[i] / coefficientStep;
+        if (_answerCoefficients[i] == correctAnswers[i]) {
             answerStatuses[i] = 2;
             correctCounts[answerIndex]--;
         }
     }
 
     for (var i = 0; i < 5; i++) {
-        var answerIndex = answers[i] / coefficientStep;
+        var answerIndex = _answerCoefficients[i] / coefficientStep;
         if (correctCounts[answerIndex] > 0 && answerStatuses[i] == 0) {
             answerStatuses[i] = 1;
             correctCounts[answerIndex]--;

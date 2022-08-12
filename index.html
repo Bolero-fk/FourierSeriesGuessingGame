@@ -60,7 +60,7 @@
                 id="a50">0.50</span></b>sin50&theta;
     </p>
     <script>
-        var chart = InitializeGraph(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP);
+        var chart = InitializeGraph(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
 
         const range1Elem = document.getElementById('fourier-a1');
         const range2Elem = document.getElementById('fourier-a5');
@@ -85,7 +85,7 @@
         }
 
         function graphChange() {
-            ChangeGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
+            ChangeGraph(chart, [range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value]);
             text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
             text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
             text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
@@ -94,7 +94,7 @@
         }
 
         function CheckGraph() {
-            UpdateHintGraph(chart, range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
+            UpdateHintGraph(chart, [range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value]);
             UpdatePastAnswers();
             UpdateScore();
             checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
@@ -125,7 +125,7 @@
         }
 
         function GetPastAnswerHTML() {
-            var answerStatuses = GetAnswerStatuses(range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value);
+            var answerStatuses = GetAnswerStatuses([range1Elem.value, range2Elem.value, range3Elem.value, range4Elem.value, range5Elem.value]);
             var copyElement = document.getElementById("math").cloneNode(true);
             for (var i = 1; i < copyElement.childElementCount; i++) {
                 if (answerStatuses[i - 1] == 1)
