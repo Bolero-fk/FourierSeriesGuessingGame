@@ -9,6 +9,9 @@
         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="./DrawFourier.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/modaal@0.4.4/dist/js/modaal.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modaal@0.4.4/dist/css/modaal.min.css">
 </head>
 
 <body>
@@ -33,6 +36,20 @@
             rangeElement.setAttribute("value", INITIAL_VALUE);
         }
     </script>
+
+
+    <div class="modalWindow"></div>
+    <div id="modal" style="display:none;">
+        Inline content goes here...
+    </div>
+
+    <script>
+        // モーダルウィンドウの設定
+        $(".modalWindow").modaal({
+            content_source: '#modal',
+        });
+    </script>
+
 
     <canvas id="ex_chart"></canvas>
     <label>a1<input type="range" id="fourier-a1"></label>
@@ -59,6 +76,7 @@
         <b><span id="a10">0.50</span></b>sin10&theta; + <b><span id="a20">0.50</span></b>sin20&theta; + <b><span
                 id="a50">0.50</span></b>sin50&theta;
     </p>
+
     <script>
         var chart = InitializeGame(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
 
@@ -98,6 +116,9 @@
             UpdatePastAnswers();
             UpdateScore(chart);
             checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
+            if (GetScore() > 1) {
+                ClearGame();
+            }
         }
 
         function GetAnswerCoefficients() {
@@ -144,6 +165,11 @@
             // スクロール要素の高さ
             var scrollHeight = document.getElementById("scrollBox").scrollHeight;
             document.getElementById("scrollBox").scrollTop = scrollHeight;
+        }
+
+        function ClearGame() {
+            console.log("aaa");
+            $(".modalWindow").modaal('open');
         }
 
     </script>
