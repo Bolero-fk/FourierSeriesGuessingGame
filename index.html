@@ -40,7 +40,12 @@
 
     <div class="modalWindow"></div>
     <div id="modal" style="display:none;">
-        Inline content goes here...
+        <h2>
+            <center>
+                Clear!<br>
+                <input type="button" value="Restart Game" onClick="RestartGame()">
+            </center>
+        </h2>
     </div>
 
     <script>
@@ -94,6 +99,8 @@
 
         const checkCountElem = document.getElementById("checkCount");
 
+        const scoreElem = document.getElementById('score');
+
         window.onload = () => {
             range1Elem.addEventListener('input', graphChange);
             range2Elem.addEventListener('input', graphChange);
@@ -126,7 +133,6 @@
         }
 
         function UpdateScore() {
-            const scoreElem = document.getElementById('score');
             scoreElem.innerHTML = GetScore().toString() + "%";
         }
 
@@ -161,6 +167,24 @@
             return copyElement.innerHTML;
         }
 
+        function RestartGame() {
+            chart = InitializeGame(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
+            $(".modalWindow").modaal('close');
+            range1Elem.value = INITIAL_VALUE;
+            range2Elem.value = INITIAL_VALUE;
+            range3Elem.value = INITIAL_VALUE;
+            range4Elem.value = INITIAL_VALUE;
+            range5Elem.value = INITIAL_VALUE;
+            text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
+            text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
+            text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
+            text4Elem.innerText = Number.parseFloat(range4Elem.value).toFixed(2);
+            text5Elem.innerText = Number.parseFloat(range5Elem.value).toFixed(2);
+            scoreElem.innerHTML = "0.00" + "%";
+            document.getElementById("PastAnswers").innerHTML = "";
+            checkCountElem.innerText = 1;
+        }
+
         function ScrollToBottom() {
             // スクロール要素の高さ
             var scrollHeight = document.getElementById("scrollBox").scrollHeight;
@@ -168,7 +192,6 @@
         }
 
         function ClearGame() {
-            console.log("aaa");
             $(".modalWindow").modaal('open');
         }
 
