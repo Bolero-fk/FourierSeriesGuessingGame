@@ -166,9 +166,9 @@
             var answerStatuses = GetAnswerStatuses(GetAnswerCoefficients());
             var copyElement = document.getElementById("math").cloneNode(true);
             for (var i = 2; i < copyElement.childElementCount; i++) {
-                if (answerStatuses[i - 1] == 1)
+                if (answerStatuses[i - 2] == 1)
                     copyElement.children[i].style.color = "#faae2b";
-                else if (answerStatuses[i - 1] == 2)
+                else if (answerStatuses[i - 2] == 2)
                     copyElement.children[i].style.color = "#2cb67d";
             }
             return copyElement.innerHTML;
