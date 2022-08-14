@@ -84,6 +84,7 @@
     </p>
 
     <script>
+        var isFinish = false;
         var checkCount = 1;
         var chart = InitializeGame(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
 
@@ -119,18 +120,19 @@
         }
 
         function CheckGraph() {
-            if (checkCount < 6) {
+            if (!isFinish) {
                 checkCount++;
                 UpdateHintGraph(chart, GetAnswerCoefficients());
                 UpdatePastAnswers();
-                UpdateScore(chart);
+                UpdateScore();
                 checkCountElem.innerText = checkCount;
-                if (checkCount == 6) {
+                if (checkCount == 6 || GetScore(chart) == 100) {
                     ShowCorrectAnswer();
+                    isFinish = true;
                 }
             }
 
-            if (checkCount > 5) {
+            if (isFinish) {
                 ClearGame();
             }
         }
@@ -140,7 +142,7 @@
         }
 
         function UpdateScore() {
-            scoreElem.innerHTML = GetScore().toString() + "%";
+            scoreElem.innerHTML = GetScore(chart).toString() + "%";
         }
 
         function UpdatePastAnswers() {
@@ -190,6 +192,7 @@
             checkCount = 1;
             checkCountElem.innerText = 1;
             document.getElementById("checkCountMessage").innerText = "回目";
+            isFinish = false;
         }
 
         function ShowCorrectAnswer() {
