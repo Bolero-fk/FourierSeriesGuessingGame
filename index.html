@@ -119,11 +119,14 @@
         }
 
         function CheckGraph() {
-            UpdateHintGraph(chart, GetAnswerCoefficients());
-            UpdatePastAnswers();
-            UpdateScore(chart);
-            checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
-            if (GetScore() > 1) {
+            if (parseInt(checkCountElem.innerText) < 6) {
+                UpdateHintGraph(chart, GetAnswerCoefficients());
+                UpdatePastAnswers();
+                UpdateScore(chart);
+                checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
+            }
+
+            if (parseInt(checkCountElem.innerText) > 5) {
                 ClearGame();
             }
         }
