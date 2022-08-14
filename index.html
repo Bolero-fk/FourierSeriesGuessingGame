@@ -75,14 +75,16 @@
     <font size="7">Score: <span id="score">0.00%</span></font>
 
     <p id=math>
-        <span id="checkCount">1</span>回目: <b><span id="a1">0.50</span></b>sin&theta; + <b><span
-                id="a5">0.50</span></b>sin5&theta;
+        <span id="checkCount">1</span><span id="checkCountMessage">回目</span>: <b><span id="a1">0.50</span></b>sin&theta;
+        +
+        <b><span id="a5">0.50</span></b>sin5&theta;
         +
         <b><span id="a10">0.50</span></b>sin10&theta; + <b><span id="a20">0.50</span></b>sin20&theta; + <b><span
                 id="a50">0.50</span></b>sin50&theta;
     </p>
 
     <script>
+        var checkCount = 1;
         var chart = InitializeGame(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
 
         const rangeElemnts = [
@@ -117,17 +119,18 @@
         }
 
         function CheckGraph() {
-            if (parseInt(checkCountElem.innerText) < 6) {
+            if (checkCount < 6) {
+                checkCount++;
                 UpdateHintGraph(chart, GetAnswerCoefficients());
                 UpdatePastAnswers();
                 UpdateScore(chart);
-                checkCountElem.innerText = parseInt(checkCountElem.innerText) + 1;
-                if (parseInt(checkCountElem.innerText) == 6) {
+                checkCountElem.innerText = checkCount;
+                if (checkCount == 6) {
                     ShowCorrectAnswer();
                 }
             }
 
-            if (parseInt(checkCountElem.innerText) > 5) {
+            if (checkCount > 5) {
                 ClearGame();
             }
         }
@@ -162,7 +165,7 @@
         function GetPastAnswerHTML() {
             var answerStatuses = GetAnswerStatuses(GetAnswerCoefficients());
             var copyElement = document.getElementById("math").cloneNode(true);
-            for (var i = 1; i < copyElement.childElementCount; i++) {
+            for (var i = 2; i < copyElement.childElementCount; i++) {
                 if (answerStatuses[i - 1] == 1)
                     copyElement.children[i].style.color = "#faae2b";
                 else if (answerStatuses[i - 1] == 2)
@@ -183,6 +186,7 @@
             }
             scoreElem.innerHTML = "0.00" + "%";
             document.getElementById("PastAnswers").innerHTML = "";
+            checkCount = 1;
             checkCountElem.innerText = 1;
         }
 
@@ -191,7 +195,9 @@
                 rangeElemnts[i].disabled = true;
                 rangeElemnts[i].value = GetCorrectAnswers()[i];
                 textElements[i].innerText = Number.parseFloat(rangeElemnts[i].value).toFixed(2);
-                document.getElementById("math").children[i + 1].style.color = "#2cb67d";
+                document.getElementById("math").children[i + 2].style.color = "#2cb67d";
+                checkCountElem.innerText = "";
+                document.getElementById("checkCountMessage").innerText = "Correct Answer";
             }
 
             ChangeGraph(chart, GetAnswerCoefficients());
