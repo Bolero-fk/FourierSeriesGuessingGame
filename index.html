@@ -51,7 +51,9 @@
     <script>
         // モーダルウィンドウの設定
         $(".modalWindow").modaal({
+            type: 'inline',
             content_source: '#modal',
+            background_scroll: true,
         });
     </script>
 
@@ -60,7 +62,7 @@
     <label>a1<input type="range" id="fourier-a1"></label>
     <label>a5<input type="range" id="fourier-a5"></label>
     <label>a10<input type="range" id="fourier-a10"></label>
-    <label>a25<input type="range" id="fourier-a20"></label>
+    <label>a20<input type="range" id="fourier-a20"></label>
     <label>a50<input type="range" id="fourier-a50"></label>
     <input type="button" onclick="CheckGraph()" value="Check">
 
@@ -205,7 +207,8 @@
                 document.getElementById("checkCountMessage").innerText = "正答";
             }
 
-            ChangeGraph(chart, GetAnswerCoefficients());
+            if (GetScore(chart) != 100)
+                DisplayCorrectAnswer(chart);
         }
 
         function ScrollToBottom() {

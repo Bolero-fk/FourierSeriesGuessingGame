@@ -175,3 +175,9 @@ function GetCorrectAnswers() {
     return correctAnswers;
 }
 
+function DisplayCorrectAnswer(_chart) {
+    _chart.data.datasets[1].data = GetFrourier(correctAnswers);
+    _chart.options.animation.duration = 1000;
+    _chart.update();
+}
+
