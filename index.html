@@ -40,12 +40,19 @@
 
     <div class="modalWindow"></div>
     <div id="modal" style="display:none;">
-        <h2>
-            <center>
-                Clear!<br>
-                <input type="button" value="Restart Game" onClick="RestartGame()">
-            </center>
-        </h2>
+        <center>
+            <h2>
+                Result<br>
+            </h2>
+            クリア率:<font size="7"><span id="clearPercent">--</span></font>%<br>
+            クリアまでにチェックした回数:
+            <span id="checkCountOfClearGame">
+                <font size="7">--</font>
+            </span>
+            <span id="checkCountOfClearGameMessage">回</span>
+            <br>
+            <input type="button" value="Restart Game" onClick="RestartGame()">
+        </center>
     </div>
 
     <script>
@@ -218,6 +225,16 @@
         }
 
         function ClearGame() {
+            document.getElementById("clearPercent").innerText = GetScore();
+            if (GetScore() == 100) {
+                document.getElementById("checkCountOfClearGame").innerText = checkCount;
+                document.getElementById("checkCountOfClearGameMessage").innerText = "回";
+            }
+            else {
+                document.getElementById("checkCountOfClearGame").innerText = "";
+                document.getElementById("checkCountOfClearGameMessage").innerText = "No Clear";
+            }
+
             $(".modalWindow").modaal('open');
         }
 
