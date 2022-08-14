@@ -170,4 +170,7 @@ function GetAnswerStatuses(_answerCoefficients) {
     return answerStatuses;
 }
 
+function GetCorrectAnswers() {
+    return correctAnswers;
+}
 
