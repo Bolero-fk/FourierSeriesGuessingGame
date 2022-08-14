@@ -85,37 +85,35 @@
     <script>
         var chart = InitializeGame(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
 
-        const range1Elem = document.getElementById('fourier-a1');
-        const range2Elem = document.getElementById('fourier-a5');
-        const range3Elem = document.getElementById('fourier-a10');
-        const range4Elem = document.getElementById('fourier-a20');
-        const range5Elem = document.getElementById('fourier-a50');
+        const rangeElemnts = [
+            document.getElementById('fourier-a1'),
+            document.getElementById('fourier-a5'),
+            document.getElementById('fourier-a10'),
+            document.getElementById('fourier-a20'),
+            document.getElementById('fourier-a50')];
 
-        const text1Elem = document.getElementById('a1');
-        const text2Elem = document.getElementById('a5');
-        const text3Elem = document.getElementById('a10');
-        const text4Elem = document.getElementById('a20');
-        const text5Elem = document.getElementById('a50');
+        const textElements = [
+            document.getElementById('a1'),
+            document.getElementById('a5'),
+            document.getElementById('a10'),
+            document.getElementById('a20'),
+            document.getElementById('a50')];
 
         const checkCountElem = document.getElementById("checkCount");
 
         const scoreElem = document.getElementById('score');
 
         window.onload = () => {
-            range1Elem.addEventListener('input', graphChange);
-            range2Elem.addEventListener('input', graphChange);
-            range3Elem.addEventListener('input', graphChange);
-            range4Elem.addEventListener('input', graphChange);
-            range5Elem.addEventListener('input', graphChange);
+            for (var i = 0; i < 5; i++) {
+                rangeElemnts[i].addEventListener('input', graphChange);
+            }
         }
 
         function graphChange() {
             ChangeGraph(chart, GetAnswerCoefficients());
-            text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
-            text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
-            text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
-            text4Elem.innerText = Number.parseFloat(range4Elem.value).toFixed(2);
-            text5Elem.innerText = Number.parseFloat(range5Elem.value).toFixed(2);
+            for (var i = 0; i < 5; i++) {
+                textElements[i].innerText = Number.parseFloat(rangeElemnts[i].value).toFixed(2);
+            }
         }
 
         function CheckGraph() {
@@ -135,7 +133,7 @@
         }
 
         function GetAnswerCoefficients() {
-            return [parseFloat(range1Elem.value), parseFloat(range2Elem.value), parseFloat(range3Elem.value), parseFloat(range4Elem.value), parseFloat(range5Elem.value)];
+            return [parseFloat(rangeElemnts[0].value), parseFloat(rangeElemnts[1].value), parseFloat(rangeElemnts[2].value), parseFloat(rangeElemnts[3].value), parseFloat(rangeElemnts[4].value)];
         }
 
         function UpdateScore() {
@@ -176,38 +174,26 @@
         function RestartGame() {
             chart = InitializeGame(MIN_COEFFICIENT, MAX_COEFFICIENT, COEFFICIENT_STEP, [1, 5, 10, 20, 50]);
             $(".modalWindow").modaal('close');
-            range1Elem.value = INITIAL_VALUE;
-            range2Elem.value = INITIAL_VALUE;
-            range3Elem.value = INITIAL_VALUE;
-            range4Elem.value = INITIAL_VALUE;
-            range5Elem.value = INITIAL_VALUE;
-            text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
-            text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
-            text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
-            text4Elem.innerText = Number.parseFloat(range4Elem.value).toFixed(2);
-            text5Elem.innerText = Number.parseFloat(range5Elem.value).toFixed(2);
+            for (var i = 0; i < 5; i++) {
+                rangeElemnts[i].value = INITIAL_VALUE;
+            }
+
+            for (var i = 0; i < 5; i++) {
+                textElements[i].innerText = Number.parseFloat(rangeElemnts[i].value).toFixed(2);
+            }
             scoreElem.innerHTML = "0.00" + "%";
             document.getElementById("PastAnswers").innerHTML = "";
             checkCountElem.innerText = 1;
         }
 
         function ShowCorrectAnswer() {
-            range1Elem.disabled = true;
-            range2Elem.disabled = true;
-            range3Elem.disabled = true;
-            range4Elem.disabled = true;
-            range5Elem.disabled = true;
-            range1Elem.value = GetCorrectAnswers()[0];
-            range2Elem.value = GetCorrectAnswers()[1];
-            range3Elem.value = GetCorrectAnswers()[2];
-            range4Elem.value = GetCorrectAnswers()[3];
-            range5Elem.value = GetCorrectAnswers()[4];
+            for (var i = 0; i < 5; i++) {
+                rangeElemnts[i].disabled = true;
+                rangeElemnts[i].value = GetCorrectAnswers()[i];
+                textElements[i].innerText = Number.parseFloat(rangeElemnts[i].value).toFixed(2);
+            }
+
             ChangeGraph(chart, GetAnswerCoefficients());
-            text1Elem.innerText = Number.parseFloat(range1Elem.value).toFixed(2);
-            text2Elem.innerText = Number.parseFloat(range2Elem.value).toFixed(2);
-            text3Elem.innerText = Number.parseFloat(range3Elem.value).toFixed(2);
-            text4Elem.innerText = Number.parseFloat(range4Elem.value).toFixed(2);
-            text5Elem.innerText = Number.parseFloat(range5Elem.value).toFixed(2);
         }
 
         function ScrollToBottom() {
