@@ -191,6 +191,7 @@
                 rangeElemnts[i].disabled = true;
                 rangeElemnts[i].value = GetCorrectAnswers()[i];
                 textElements[i].innerText = Number.parseFloat(rangeElemnts[i].value).toFixed(2);
+                document.getElementById("math").children[i + 1].style.color = "#2cb67d";
             }
 
             ChangeGraph(chart, GetAnswerCoefficients());
