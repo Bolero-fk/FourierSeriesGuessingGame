@@ -1,6 +1,6 @@
 const PLOT_NUMBER = 10000;
 const Two_PI = 2 * Math.PI;
-const ANSWER_THRETHOLD = 0.01;
+const ANSWER_THRETHOLD = 0.05;
 
 var correctAnswers;
 var minCoefficient = 0;
