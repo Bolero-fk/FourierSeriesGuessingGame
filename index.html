@@ -227,7 +227,7 @@
         function ClearGame() {
             document.getElementById("clearPercent").innerText = GetScore();
             if (GetScore() == 100) {
-                document.getElementById("checkCountOfClearGame").innerText = checkCount;
+                document.getElementById("checkCountOfClearGame").innerText = checkCount - 1;
                 document.getElementById("checkCountOfClearGameMessage").innerText = "回";
             }
             else {
