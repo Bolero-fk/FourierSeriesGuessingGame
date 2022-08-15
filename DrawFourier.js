@@ -40,6 +40,7 @@ function InitializeGame(_minCoefficient, _maxCoefficient, _coefficientStep, _cyc
     cycles = _cycles;
 
     SetCorrectAnswers();
+    console.log(correctAnswers);
 
     return InitializeGraph();
 }
